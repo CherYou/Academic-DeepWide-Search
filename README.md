@@ -1,8 +1,10 @@
 <h1 align="center">SciBench</h1>
 
+<p align="center">English · <a href="README_zh.md">简体中文</a></p>
+
 <div align="center">
 
-<strong>Inference and evaluation code for the Science Bench benchmark release.</strong>
+<strong>Reference code for inference and evaluation on the Academic DeepWide Search benchmark.</strong>
 
 <br />
 <br />
@@ -31,6 +33,31 @@
 
 </div>
 
+## Academic DeepWide Search (brief)
+
+The Academic DeepWide Search benchmark is designed for **scientific literature search** under conditions where credible answers typically require **full-text reading**, **fine-grained evidence**, and **multi-hop reasoning along citation relations**, rather than shallow keyword or abstract-level matching.
+
+Two complementary tracks are evaluated:
+
+- **Deep Search** (*precision-oriented retrieval*): locate the unique paper that satisfies a set of deliberately obfuscated, detail-heavy constraints (including evidence that may appear deep in the main text, appendix, or figures).
+- **Wide Search** (*recall-oriented set construction*): given a topic and constraints, collect **all** papers that meet the specification—analogous to exhaustive coverage in a structured literature survey.
+
+Empirical reports in the accompanying materials indicate that contemporary frontier models remain **far below saturation** on these tracks (e.g., on the order of **single-digit accuracy** for Deep Search and **single-digit IoU** for Wide Search under the reported protocol), underscoring that strong performance on generic web browsing does not automatically transfer to these settings.
+
+
+## Figures
+
+Construction pipeline (high-level overview). Vector figure: [`assets/construction-pipeline.pdf`](assets/construction-pipeline.pdf).
+
+![Construction pipeline overview](assets/construction-pipeline_preview.png)
+
+Illustrative benchmark cases. Vector figure: [`assets/Academic-Search-Agent-Benchmark-cases.pdf`](assets/Academic-Search-Agent-Benchmark-cases.pdf).
+
+![Benchmark case illustrations](assets/Academic-Search-Agent-Benchmark-cases_preview.png)
+
+Main experimental results reported with the DeepXiv search tool (end-to-end systems evaluated separately in the table’s protocol). Raster export of the paper’s summary table:
+
+![Main experimental results](assets/main_results_table.png)
 
 ## Repository Map
 
@@ -57,7 +84,7 @@ cp example.env .env
 MODEL=your_model_name
 OPENAI_API_KEY=your_api_key
 OPENAI_API_BASE=your_api_base
-INPUT_FILE=input_data/Academic-Deep-Search-CR-0331.jsonl
+INPUT_FILE=input_data/academic_deepsearch_example.jsonl
 ```
 
 3. Run inference:
@@ -105,6 +132,10 @@ INPUT_FILE=input_data/Academic-Deep-Search-CR-0331.jsonl
 
 > [!NOTE]
 > The released file on Hugging Face is the obfuscated bundle. Run inference on the decrypted `.jsonl`, not on the `.obf.json` file directly.
+
+## Citation
+
+If you use this benchmark or code, please cite the Academic DeepWide Search publication when available, and retain the dataset attribution required by the Hugging Face repository license.
 
 ## Notes
 
