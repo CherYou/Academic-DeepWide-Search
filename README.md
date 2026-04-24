@@ -31,15 +31,20 @@
 
 ## Abstract
 
-Autonomous scientific research is significantly advanced thanks to the development of AI agents. One key step in this process is finding the right scientific literature, whether to explore existing knowledge for a research problem, or to acquire evidence for verifying assumptions and supporting claims. 
+## Abstract
+
+Autonomous scientific research is significantly advanced thanks to the development of AI agents. One key step in this process is finding the right scientific literature, whether to explore existing knowledge for a research problem, or to acquire evidence for verifying assumptions and supporting claims.
+
 To assess AI agents' capability in driving this process, we present **AutoResearchBench**, a dedicated benchmark for autonomous scientific literature discovery.
 
-Two complementary tracks are evaluated:
+AutoResearchBench consists of two complementary task types:
 
-- **Deep Research** (*precision-oriented retrieval*): locate the unique paper that satisfies a set of obfuscated, detail-heavy constraints (including evidence that may appear deep in the main text, appendix, or tables).
-- **Wide Research** (*recall-oriented set construction*): given a topic and constraints, collect **all** papers that meet the specification—analogous to exhaustive coverage in a structured literature survey.
+- **Deep Research**: requires tracking down a specific target paper through a progressive, multi-step probing process.
+- **Wide Research**: requires comprehensively collecting a set of papers satisfying given conditions.
 
-Empirical reports in the accompanying materials indicate that contemporary frontier models remain **far below saturation** on these tracks (e.g., on the order of **single-digit accuracy** for Deep Search and **single-digit IoU** for Wide Search), underscoring that strong performance on generic web browsing does not automatically transfer to these settings.
+Compared to previous benchmarks on agentic web browsing, AutoResearchBench is distinguished along three dimensions: it is *research-oriented*, calling for in-depth comprehension of scientific concepts; *literature-focused*, demanding fine-grained utilization of detailed information; and *open-ended*, involving an unknown number of qualified papers and thus requiring deliberate reasoning and search throughout. These properties make AutoResearchBench uniquely suited for evaluating autonomous research capabilities, and extraordinarily challenging.
+
+Even the most powerful LLMs, despite having largely conquered general agentic web-browsing benchmarks such as BrowseComp, achieve only 9.39% accuracy on Deep Research and 9.31% IoU on Wide Research, while many other strong baselines fall below 5%. We publicly release the dataset and evaluation pipeline to facilitate future research in this direction.
 
 
 ## Figures
