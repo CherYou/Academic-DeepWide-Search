@@ -12,11 +12,15 @@
 <a href="#quick-start">
   <img src="https://img.shields.io/badge/Quick_Start-Run_the_Pipeline-111827?style=for-the-badge&logo=rocket&logoColor=white" alt="Quick Start" />
 </a>
-<a href="https://huggingface.co/datasets/Lk123/Academic-DeepWide-Search">
+<a href="https://huggingface.co/datasets/Lk123/AutoResearchBench">
   <img src="https://img.shields.io/badge/Hugging_Face-Dataset-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black" alt="Hugging Face Dataset" />
 </a>
 <a href="#benchmark-data">
   <img src="https://img.shields.io/badge/Benchmark_Data-Download_%26_Decrypt-0F766E?style=for-the-badge&logo=databricks&logoColor=white" alt="Benchmark Data" />
+</a>
+<a href="#repository-map">
+  <img src="https://img.shields.io/badge/Repository_Map-Code_Guide-2563EB?style=for-the-badge&logo=github&logoColor=white" alt="Repository Map" />
+</a>
 
 <br />
 <br />
@@ -48,9 +52,9 @@ Construction pipeline (high-level overview). Vector figure: [`assets/constructio
 
 ![Construction pipeline overview](assets/construction-pipeline_preview.png)
 
-Illustrative benchmark cases. Vector figure: [`assets/Academic-Search-Agent-Benchmark-cases.pdf`](assets/Academic-Search-Agent-Benchmark-cases.pdf).
+Illustrative benchmark cases. Vector figure: [`assets/autoresearchbench-cases.pdf`](assets/autoresearchbench-cases.pdf).
 
-![Benchmark case illustrations](assets/Academic-Search-Agent-Benchmark-cases_preview.png)
+![Benchmark case illustrations](assets/autoresearchbench-cases_preview.png)
 
 Main experimental results reported with the DeepXiv search tool (end-to-end systems evaluated separately in the table’s protocol). Raster export of the paper’s summary table:
 
@@ -68,13 +72,19 @@ Main experimental results reported with the DeepXiv search tool (end-to-end syst
 
 ## Quick Start
 
-1. Create an environment file:
+1. Install dependencies:
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
+2. Create an environment file:
 
 ```bash
 cp example.env .env
 ```
 
-2. Fill in the required fields in `.env`:
+3. Fill in the required fields in `.env`:
 
 ```bash
 MODEL=your_model_name
@@ -83,13 +93,13 @@ OPENAI_API_BASE=your_api_base
 INPUT_FILE=input_data/academic_deepsearch_example.jsonl
 ```
 
-3. Run inference:
+4. Run inference:
 
 ```bash
 bash run_inference.sh
 ```
 
-4. Run evaluation:
+5. Run evaluation:
 
 ```bash
 bash evaluate/run_evaluate.sh deep --input-file output_data/inference_output.jsonl
@@ -98,32 +108,32 @@ bash evaluate/run_evaluate.sh wide --input-file output_data/inference_output.jso
 
 ## Benchmark Data
 
-The released benchmark bundle is hosted on the Hugging Face dataset repo [`Lk123/Academic-DeepWide-Search`](https://huggingface.co/datasets/Lk123/Academic-DeepWide-Search).
+The released benchmark bundle is hosted on the Hugging Face dataset repo [`Lk123/AutoResearchBench`](https://huggingface.co/datasets/Lk123/AutoResearchBench).
 
 ### 1. Download the released bundle
 
 ```bash
 mkdir -p input_data
 
-export HF_TOKEN=your_hf_token  # required if the dataset repo is private
 curl -L \
-  -H "Authorization: Bearer ${HF_TOKEN}" \
-  -o input_data/Academic-DeepWide-Search.jsonl.obf.json \
-  https://huggingface.co/datasets/Lk123/Academic-DeepWide-Search/resolve/main/Academic-DeepWide-Search.jsonl.obf.json
+  -o input_data/AutoResearchBench.jsonl.obf.json \
+  https://huggingface.co/datasets/Lk123/AutoResearchBench/resolve/main/AutoResearchBench.jsonl.obf.json
 ```
+
+If you mirror the bundle into a private Hugging Face repo, add `-H "Authorization: Bearer ${HF_TOKEN}"` to the `curl` command.
 
 ### 2. Decrypt it locally
 
 ```bash
 python3 decrypt_benchmark.py \
-  --input-file input_data/Academic-DeepWide-Search.jsonl.obf.json \
-  --output-file input_data/Academic-DeepWide-Search.jsonl
+  --input-file input_data/AutoResearchBench.jsonl.obf.json \
+  --output-file input_data/AutoResearchBench.jsonl
 ```
 
 ### 3. Point inference to the decrypted JSONL
 
 ```bash
-INPUT_FILE=input_data/Academic-DeepWide-Search.jsonl
+INPUT_FILE=input_data/AutoResearchBench.jsonl
 ```
 
 > [!NOTE]
@@ -131,10 +141,14 @@ INPUT_FILE=input_data/Academic-DeepWide-Search.jsonl
 
 ## Citation
 
-If you use this benchmark or code, please cite the Academic DeepWide Search publication when available, and retain the dataset attribution required by the Hugging Face repository license.
+If you use this benchmark or code, please cite the AutoResearchBench publication when available, and retain the dataset attribution required by the Hugging Face repository license.
+
+## License
+
+This repository is released under the Apache License 2.0. See [`LICENSE`](LICENSE) for details.
 
 ## Notes
 
 - Inference automatically skips questions that already exist in the output JSONL file.
-- `run_inference.sh` and `evaluate/run_evaluate.sh` both load configuration from `.env` by default.
+- `run_inference.sh` and `evaluate/run_evaluate.sh` both load configuration from `.env` by default. Set `AUTORESEARCHBENCH_ENV_FILE` to use a different environment file.
 - Use `--verbose` on Python entrypoints when you need detailed debugging logs.

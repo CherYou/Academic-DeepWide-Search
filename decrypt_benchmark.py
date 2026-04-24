@@ -146,7 +146,7 @@ except ImportError:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Decrypt a public SciBench benchmark bundle back into the original file."
+        description="Decrypt a public AutoResearchBench bundle back into the original file."
     )
     parser.add_argument("--input-file", required=True, help="Path to the encrypted bundle.")
     parser.add_argument(

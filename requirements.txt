@@ -1,0 +1,11 @@
+aiohttp
+cryptography
+numpy
+openai
+python-dateutil
+python-dotenv
+qwen-agent
+requests
+soundfile
+tiktoken
+tqdm

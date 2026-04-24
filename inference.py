@@ -10,7 +10,7 @@ from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 from tqdm import tqdm
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 
 from prompts import AGENT_SYSTEM_PROMPT, WARNING_PROMPT
@@ -306,7 +306,7 @@ class AgentService:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Run batch inference for SciBench.")
+    parser = argparse.ArgumentParser(description="Run batch inference for AutoResearchBench.")
     parser.add_argument("--input-file", type=str, default="data.jsonl", help="Path to the input JSONL file.")
     parser.add_argument("--output-file", type=str, default="output.jsonl", help="Path to the output JSONL file.")
     parser.add_argument("-k", type=int, default=1, help="Number of inference passes per input item.")

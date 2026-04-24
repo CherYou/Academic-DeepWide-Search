@@ -12,7 +12,7 @@
 <a href="#快速开始">
   <img src="https://img.shields.io/badge/Quick_Start-Run_the_Pipeline-111827?style=for-the-badge&logo=rocket&logoColor=white" alt="Quick Start" />
 </a>
-<a href="https://huggingface.co/datasets/Lk123/Academic-DeepWide-Search">
+<a href="https://huggingface.co/datasets/Lk123/AutoResearchBench">
   <img src="https://img.shields.io/badge/Hugging_Face-Dataset-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black" alt="Hugging Face Dataset" />
 </a>
 <a href="#基准数据">
@@ -50,9 +50,9 @@ AutoResearchBench 面向**科学文献检索**场景：可信答案往往依赖*
 
 ![构造流程示意](assets/construction-pipeline_preview.png)
 
-Benchmark 案例示意。矢量版：[`assets/Academic-Search-Agent-Benchmark-cases.pdf`](assets/Academic-Search-Agent-Benchmark-cases.pdf)。
+Benchmark 案例示意。矢量版：[`assets/autoresearchbench-cases.pdf`](assets/autoresearchbench-cases.pdf)。
 
-![Benchmark 案例示意](assets/Academic-Search-Agent-Benchmark-cases_preview.png)
+![Benchmark 案例示意](assets/autoresearchbench-cases_preview.png)
 
 主实验结果汇总（表中在统一协议下以 DeepXiv 检索工具评测；端到端系统另行列出）。下图来自论文材料的表格导出：
 
@@ -71,13 +71,19 @@ Benchmark 案例示意。矢量版：[`assets/Academic-Search-Agent-Benchmark-ca
 
 ## 快速开始
 
-1. 复制环境变量模板：
+1. 安装依赖：
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
+2. 复制环境变量模板：
 
 ```bash
 cp example.env .env
 ```
 
-2. 在 `.env` 中填写必要字段：
+3. 在 `.env` 中填写必要字段：
 
 ```bash
 MODEL=your_model_name
@@ -86,13 +92,13 @@ OPENAI_API_BASE=your_api_base
 INPUT_FILE=input_data/academic_deepsearch_example.jsonl
 ```
 
-3. 运行推理：
+4. 运行推理：
 
 ```bash
 bash run_inference.sh
 ```
 
-4. 运行评测：
+5. 运行评测：
 
 ```bash
 bash evaluate/run_evaluate.sh deep --input-file output_data/inference_output.jsonl
@@ -101,32 +107,32 @@ bash evaluate/run_evaluate.sh wide --input-file output_data/inference_output.jso
 
 ## 基准数据
 
-公开发布的数据包托管于 Hugging Face 数据集仓库 [`Lk123/Academic-DeepWide-Search`](https://huggingface.co/datasets/Lk123/Academic-DeepWide-Search)。
+公开发布的数据包托管于 Hugging Face 数据集仓库 [`Lk123/AutoResearchBench`](https://huggingface.co/datasets/Lk123/AutoResearchBench)。
 
 ### 1. 下载发布包
 
 ```bash
 mkdir -p input_data
 
-export HF_TOKEN=your_hf_token  # 若仓库为私有可能需要
 curl -L \
-  -H "Authorization: Bearer ${HF_TOKEN}" \
-  -o input_data/Academic-Deep-Search-CR-0331.jsonl.obf.json \
-  https://huggingface.co/datasets/Lk123/Academic-DeepWide-Search/resolve/main/Academic-Deep-Search-CR-0331.jsonl.obf.json
+  -o input_data/AutoResearchBench.jsonl.obf.json \
+  https://huggingface.co/datasets/Lk123/AutoResearchBench/resolve/main/AutoResearchBench.jsonl.obf.json
 ```
+
+若你将数据包镜像到私有 Hugging Face 仓库，可在 `curl` 命令中额外添加 `-H "Authorization: Bearer ${HF_TOKEN}"`。
 
 ### 2. 本地解密
 
 ```bash
 python3 decrypt_benchmark.py \
-  --input-file input_data/Academic-Deep-Search-CR-0331.jsonl.obf.json \
-  --output-file input_data/Academic-Deep-Search-CR-0331.jsonl
+  --input-file input_data/AutoResearchBench.jsonl.obf.json \
+  --output-file input_data/AutoResearchBench.jsonl
 ```
 
 ### 3. 将推理输入指向解密后的 JSONL
 
 ```bash
-INPUT_FILE=input_data/Academic-Deep-Search-CR-0331.jsonl
+INPUT_FILE=input_data/AutoResearchBench.jsonl
 ```
 
 > [!NOTE]
@@ -136,8 +142,12 @@ INPUT_FILE=input_data/Academic-Deep-Search-CR-0331.jsonl
 
 若在研究中使用本基准或本仓库代码，请在正式论文发表后按其版本信息引用；并遵守 Hugging Face 数据集页面的许可与署名要求。
 
+## 许可证
+
+本仓库使用 Apache License 2.0 发布，详见 [`LICENSE`](LICENSE)。
+
 ## 说明
 
 - 推理会跳过输出 JSONL 中已存在的题目。
-- `run_inference.sh` 与 `evaluate/run_evaluate.sh` 默认从 `.env` 读取配置。
+- `run_inference.sh` 与 `evaluate/run_evaluate.sh` 默认从 `.env` 读取配置；可通过 `AUTORESEARCHBENCH_ENV_FILE` 指定其他环境文件。
 - 调试时可在 Python 入口使用 `--verbose` 获取更详细的日志。
